@@ -3,25 +3,20 @@ package com.gfo.mixxmann;
 import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
-import android.content.Context;
-import android.content.Intent;
+import android.bluetooth.BluetoothDevice;
 import android.content.pm.PackageManager;
 import android.util.Log;
-import android.view.View;
-
 import androidx.core.app.ActivityCompat;
-
-import com.gfo.mixxmann.databinding.ActivityMainBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 
 public class BTAdapter {
     protected String error;
     protected BluetoothAdapter adapter;
-    private Activity activity;
+    private final Activity activity;
     private static final String LogTAG = "mixxmannBT";
 
     public BTAdapter(Activity activity) {
@@ -54,11 +49,11 @@ public class BTAdapter {
                         System.exit(0);
                     });
                     sb1.show();
-                    Log.i(LogTAG,"BT is not permitted");
-                    error="BT is not permitted";
+                    Log.i(LogTAG, "BT is not permitted");
+                    error = "BT is not permitted";
                 } else {
                     adapter.enable();
-                    while (!adapter.isEnabled()){
+                    while (!adapter.isEnabled()) {
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
@@ -69,28 +64,63 @@ public class BTAdapter {
                 }
             });
             sb.show();
-            Log.i(LogTAG,"BT is not enabled");
+            Log.i(LogTAG, "BT is not enabled");
 
             return false;
         } else {
-            Log.i(LogTAG,"BT init ok");
+            Log.i(LogTAG, "BT init ok");
             return true;
         }
     }
-    public boolean isBtEnable(){
-        if (adapter == null) {
-            return false;
-        }
-        return adapter.isEnabled();
-    }
-    public ArrayList getDeviceList(){
-        init();
-        ArrayList list=new ArrayList<>();
-        list.add("device1\naddr1");
-        list.add("device2\naddr2");
-        list.add("device3\naddr3");
-        list.add("device4\naddr4");
 
-        return list;
+//    public boolean isBtEnable() {
+//        if (adapter == null) {
+//            return false;
+//        }
+//        return adapter.isEnabled();
+//    }
+
+    public ArrayList<String> getDeviceList() {
+        Set<BluetoothDevice> pairedDevices;
+        ArrayList<String> pairedDeviceList = new ArrayList<>();
+        String deviceName = "";
+        String deviceAddress = "";
+
+        if (!init()) {
+            return pairedDeviceList;
+        }
+        try {
+            pairedDevices = adapter.getBondedDevices();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            return pairedDeviceList;
+        }
+
+
+        if (pairedDevices.size() > 0) {
+            pairedDeviceList = new ArrayList<>();
+            for (BluetoothDevice device : pairedDevices) {
+                try {
+                    deviceName = (String) device.getName();
+                    deviceAddress = (String) device.getAddress();
+                } catch (SecurityException i) {
+                    i.printStackTrace();
+                    return pairedDeviceList;
+                }
+            }
+
+            if ((deviceName.startsWith("S3")) || (deviceName.startsWith("S8")) || (deviceName.startsWith("S5"))) {
+                pairedDeviceList.add("MIXXMANN " + deviceName + "\n" + deviceAddress);
+            }
+
+        }
+        return pairedDeviceList;
+//        ArrayList list=new ArrayList<>();
+//        list.add("device1\naddr1");
+//        list.add("device2\naddr2");
+//        list.add("device3\naddr3");
+//        list.add("device4\naddr4");
+//
+//        return list;
     }
 }
