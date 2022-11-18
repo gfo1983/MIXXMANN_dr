@@ -26,7 +26,7 @@ public class ConnectionsFragment extends Fragment {
         ConnectionsViewModel connectionsViewModel =
                 new ViewModelProvider(this).get(ConnectionsViewModel.class);
         binding = FragmentConnectionsBinding.inflate(inflater, container, false);
-
+//test commit
 
 //       final TextView textView = binding.textGallery;
         //connectionsViewModel.setDeviceList().;
