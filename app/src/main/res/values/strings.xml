@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">MIXXMANN</string>
+    <string name="nav_header_title">Smart control</string>
+    <string name="nav_header_subtitle">support@bauservice.pro</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="supportEmail">support@bauservice.pro</string>
+    <string name="supportSubject">Support request</string>
+    <string name="menu_control">Control</string>
+    <string name="menu_connections">Connections</string>
+    <string name="menu_manual">User manual</string>
+    <string name="menu_website">Visit to website</string>
+    <string name="menu_shareapp">Share</string>
+    <string name="menu_exit">Exit</string>
+    <string name="app_URL">https://play.google.com/store/apps/details?id=com.mixxmann.smartcontrol&amp;hl=ru&amp;gl=UA</string>
+    <string name="website_URL">https://bauservice.com.ua/</string>
+    <string name="appmanual_URL">https://bauservice.com.ua/app_manual/</string>
+    <string name="buttton_refresh">Refresh device list</string>
+    <string name="action_try_again">Try again</string>
+    <string name="action_enable_now">Enable now</string>
+    <string name="action_exit">EXIT</string>
+    <string name="bt_not_support">BLUETOOTH adapter not found</string>
+    <string name="bt_not_enabled">BLUETOOTH adaptet disabled</string>
+    <string name="bt_not_permit">BLUETOOTH permission error</string>
+</resources>

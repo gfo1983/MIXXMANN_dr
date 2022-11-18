@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single"
+        android:id="@+id/main">
+
+        <item
+            android:id="@+id/nav_control"
+            android:icon="?attr/actionModeSelectAllDrawable"
+            android:title="@string/menu_control" />
+        <item
+            android:id="@+id/nav_connections"
+            android:icon="@android:drawable/stat_sys_data_bluetooth"
+            android:title="@string/menu_connections" />
+
+    </group>
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/web">
+        <item
+            android:id="@+id/manual"
+            android:icon="?android:attr/actionModeFindDrawable"
+            android:title="@string/menu_manual"
+            />
+        <item
+            android:id="@+id/website"
+            android:icon="?android:attr/actionModeWebSearchDrawable"
+            android:title="@string/menu_website" />
+        <item
+            android:id="@+id/share"
+            android:icon="?attr/actionModeShareDrawable"
+            android:title="@string/menu_shareapp" />
+
+    </group>
+    <group android:checkableBehavior="single"
+        android:id="@+id/exitmenugroupe">
+        <item
+            android:id="@+id/exitmenuitem"
+            android:icon="?attr/actionModeCloseDrawable"
+            android:title="@string/menu_exit" />
+
+    </group>
+</menu>
