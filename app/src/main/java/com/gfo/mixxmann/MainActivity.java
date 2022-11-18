@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         //endregion menulistener
         BTAdapter bt=new BTAdapter(this);
         bt.init();
-        connectionsViewModel.setDeviceList(bt.getDeviceList());
+        connectionsViewModel.setDeviceList(bt.getDeviceList()) ;
 
     }
     @Override
