@@ -10,12 +10,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.gfo.mixxmann.BTAdapter;
 import com.gfo.mixxmann.MainActivity;
 import com.gfo.mixxmann.R;
 import com.gfo.mixxmann.databinding.FragmentConnectionsBinding;
+
+import java.util.ArrayList;
 
 public class ConnectionsFragment extends Fragment {
 
@@ -26,11 +30,14 @@ public class ConnectionsFragment extends Fragment {
         ConnectionsViewModel connectionsViewModel =
                 new ViewModelProvider(this).get(ConnectionsViewModel.class);
         binding = FragmentConnectionsBinding.inflate(inflater, container, false);
-//test commit
-
-//       final TextView textView = binding.textGallery;
-        //connectionsViewModel.setDeviceList().;
-        //ConnectionsViewModel. .observe(getViewLifecycleOwner(), textView::setText);
+        ConnectionsViewModel connectionModel = new ViewModelProvider(getActivity()).get(ConnectionsViewModel.class);
+        connectionModel.getDeviceList().observe(getActivity(), new Observer<ArrayList>() {
+            @Override
+            public void onChanged(ArrayList arrayList) {
+                ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,arrayList);
+                binding.deviceList.setAdapter(adapter);
+            }
+        });
         return binding.getRoot();
     }
 

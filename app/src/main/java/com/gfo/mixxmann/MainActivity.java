@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -52,12 +54,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkPermission();
+        ConnectionsViewModel connectionsViewModel=new ViewModelProvider(this).get(ConnectionsViewModel.class);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        binding.appBarMain.fab.setOnClickListener(view -> {
+
+        }
+        );
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_control, R.id.nav_connections).setOpenableLayout(drawer).build();
@@ -114,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
         //endregion menulistener
         BTAdapter bt=new BTAdapter(this);
         bt.init();
-        //ConnectionsViewModel connectionsViewModel=new ConnectionsViewModel();
-        //dataModel.setDeviceList(bt.getDeviceList());
+        connectionsViewModel.setDeviceList(bt.getDeviceList());
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

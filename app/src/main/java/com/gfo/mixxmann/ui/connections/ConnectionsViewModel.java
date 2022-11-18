@@ -9,14 +9,18 @@ import androidx.lifecycle.ViewModel;
  import com.gfo.mixxmann.BTAdapter;
  import com.gfo.mixxmann.constants;
 
+ import java.util.ArrayList;
+
 public class ConnectionsViewModel extends ViewModel {
-    public MutableLiveData<String[]> deviceList;
-
-    public ConnectionsViewModel() {
-        this.deviceList = deviceList;
+    public MutableLiveData<ArrayList> deviceList = new MutableLiveData<>();
+    public MutableLiveData<ArrayList> getDeviceList() {
+        return deviceList;
     }
 
-    public void setDeviceList(String[] devList) {
-        deviceList.setValue(devList);
+    public void setDeviceList(ArrayList deviceList) {
+        this.deviceList.setValue(deviceList);
     }
+
+
+
 }

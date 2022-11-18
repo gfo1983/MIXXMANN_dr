@@ -15,6 +15,8 @@ import androidx.core.app.ActivityCompat;
 import com.gfo.mixxmann.databinding.ActivityMainBinding;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+
 
 public class BTAdapter {
     protected String error;
@@ -81,8 +83,14 @@ public class BTAdapter {
         }
         return adapter.isEnabled();
     }
-    public String[] getDeviceList(){
+    public ArrayList getDeviceList(){
         init();
-        return new String[]{"device1\naddr1","device2\naddr2","device3\naddr3","device4\naddr4","device5\naddr5"};
+        ArrayList list=new ArrayList<>();
+        list.add("device1\naddr1");
+        list.add("device2\naddr2");
+        list.add("device3\naddr3");
+        list.add("device4\naddr4");
+
+        return list;
     }
 }
