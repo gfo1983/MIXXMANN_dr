@@ -1,11 +1,17 @@
 package com.gfo.mixxmann;
 
 import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
@@ -30,10 +36,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gfo.mixxmann.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
-    //private static final String TAG = "mixxmann";
+import java.util.ArrayList;
 
-    //region privatevariable
+public class MainActivity extends AppCompatActivity {
+    private static final String LogTAG = "mixxmann";
+
+    //region variables
     public static String[] PERMISSIONS_BLUETOOTH = {
             Manifest.permission.BLUETOOTH,
             Manifest.permission.BLUETOOTH_ADMIN,
@@ -45,15 +53,58 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private ConnectionsViewModel dataModel;
-    public BTAdapter getBt() {
-        return bt;
+    public BTAdapter bt = new BTAdapter(this);
+    //endregion variables
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            ConnectionsViewModel connectionsViewModel=new ViewModelProvider(MainActivity.this).get(ConnectionsViewModel.class);
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                Log.i(LogTAG,bt.toString());
+                try {
+                bt.addDevice(device);} catch (Exception i) {i.printStackTrace();}
+                connectionsViewModel.setDeviceList(bt.getDeviceList());
+            }
+            if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
+                connectionsViewModel.setButtontext(getResources().getString(R.string.button_discovering)); ;
+            }
+            if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+                connectionsViewModel.setButtontext(getResources().getString(R.string.button_discovery)); ;
+            }
+        }
+    };
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
     }
-    public BTAdapter bt;
-    //endregion privatevariable
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        registerReceiver();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver();
+    }
+
+    public void registerReceiver(){
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothDevice.ACTION_FOUND);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+        registerReceiver(receiver,filter);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkPermission();
+        registerReceiver();
         ConnectionsViewModel connectionsViewModel=new ViewModelProvider(this).get(ConnectionsViewModel.class);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -117,8 +168,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(Intent.createChooser(intentEmail, "Send email..."));
         });
         //endregion menulistener
-        BTAdapter bt=new BTAdapter(this);
-        bt.init();
+        bt.fillDeviceList();
         connectionsViewModel.setDeviceList(bt.getDeviceList()) ;
 
     }
@@ -127,6 +177,12 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+    public void discoverBT() {
+            //bt.s
+            bt.discoverBT();
+
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -139,5 +195,15 @@ public class MainActivity extends AppCompatActivity {
             if (permission != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,PERMISSIONS_BLUETOOTH,1);
             }
+            String[] perm=new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION};
+            if((ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)||(ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) ) {
+                ActivityCompat.requestPermissions(this,perm,1);
+            }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
     }
 }

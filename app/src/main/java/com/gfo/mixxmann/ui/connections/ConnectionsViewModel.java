@@ -13,10 +13,21 @@ import androidx.lifecycle.ViewModel;
 
 public class ConnectionsViewModel extends ViewModel {
     public MutableLiveData<ArrayList> deviceList = new MutableLiveData<>();
+    public MutableLiveData<String> buttontext = new MutableLiveData<>();
+
+    public MutableLiveData<String> getButtontext() {
+        return buttontext;
+    }
+
+    public void setButtontext(String buttontext) {
+        this.buttontext.setValue(buttontext);
+    }
+
+
+
     public MutableLiveData<ArrayList> getDeviceList() {
         return deviceList;
     }
-
     public void setDeviceList(ArrayList deviceList) {
         this.deviceList.setValue(deviceList);
     }

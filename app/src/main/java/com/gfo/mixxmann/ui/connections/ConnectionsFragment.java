@@ -36,8 +36,29 @@ public class ConnectionsFragment extends Fragment {
             public void onChanged(ArrayList arrayList) {
                 ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,arrayList);
                 binding.deviceList.setAdapter(adapter);
+                if (arrayList.size()>0) {
+                    binding.notnyngfound.setVisibility(View.GONE);
+                    binding.notnyngfound1.setVisibility(View.GONE);
+                } else {
+                    binding.notnyngfound.setVisibility(View.VISIBLE);
+                    binding.notnyngfound1.setVisibility(View.VISIBLE);
+                }
+
             }
         });
+        connectionModel.getButtontext().observe(getActivity(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binding.buttonrefresh.setText(s);
+            }
+        });
+        binding.buttonrefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) getActivity()).discoverBT();
+            }
+        });
+
         return binding.getRoot();
     }
 

@@ -14,10 +14,13 @@
     <string name="app_URL">https://play.google.com/store/apps/details?id=com.mixxmann.smartcontrol&amp;hl=ru&amp;gl=UA</string>
     <string name="website_URL">https://bauservice.com.ua/</string>
     <string name="appmanual_URL">https://bauservice.com.ua/app_manual/</string>
-    <string name="buttton_refresh">Refresh device list</string>
+    <string name="button_discovery">DISCOVERY NOW </string>
     <string name="action_enable_now">Enable now</string>
     <string name="action_exit">EXIT</string>
     <string name="bt_not_support">BLUETOOTH adapter not found</string>
     <string name="bt_not_enabled">BLUETOOTH adaptet disabled</string>
     <string name="bt_not_permit">BLUETOOTH permission error</string>
+    <string name="button_discovering">DISCOVERYNG...</string>
+    <string name="text_nothingFound">Supported devices not found.</string>
+    <string name="text_nothingFound1">Press "discover now" button for find new devices</string>
 </resources>
