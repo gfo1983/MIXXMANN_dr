@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.gfo.mixxmann.BTAdapter;
+import com.gfo.mixxmann.BTDeviceAdapter;
 import com.gfo.mixxmann.MainActivity;
 import com.gfo.mixxmann.R;
 import com.gfo.mixxmann.databinding.FragmentConnectionsBinding;
@@ -27,14 +28,12 @@ public class ConnectionsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ConnectionsViewModel connectionsViewModel =
-                new ViewModelProvider(this).get(ConnectionsViewModel.class);
         binding = FragmentConnectionsBinding.inflate(inflater, container, false);
         ConnectionsViewModel connectionModel = new ViewModelProvider(getActivity()).get(ConnectionsViewModel.class);
         connectionModel.getDeviceList().observe(getActivity(), new Observer<ArrayList>() {
             @Override
             public void onChanged(ArrayList arrayList) {
-                ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,arrayList);
+                ArrayAdapter adapter = new BTDeviceAdapter(getActivity(), arrayList);
                 binding.deviceList.setAdapter(adapter);
                 if (arrayList.size()>0) {
                     binding.notnyngfound.setVisibility(View.GONE);

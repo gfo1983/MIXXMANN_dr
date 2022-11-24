@@ -20,7 +20,7 @@ public class BTAdapter {
     protected BluetoothAdapter adapter;
     private final Activity activity;
     private static final String LogTAG = "mixxmannBT";
-    private ArrayList<String> deviceList = new ArrayList<>();
+    private ArrayList<BTdevice> deviceList = new ArrayList<>();
 
     public BTAdapter(Activity activity) {
         this.activity = activity;
@@ -76,7 +76,7 @@ public class BTAdapter {
         }
     }
 
-    public ArrayList<String> getDeviceList() {
+    public ArrayList<BTdevice> getDeviceList() {
         return deviceList;
     }
 
@@ -105,7 +105,8 @@ public class BTAdapter {
                 }
             }
             if ((deviceName.startsWith("S3")) || (deviceName.startsWith("S8")) || (deviceName.startsWith("S5"))) {
-                deviceList.add("MIXXMANN " + deviceName + "\n" + deviceAddress);
+                BTdevice bTdevice=new BTdevice("MIXXMANN "+deviceName,deviceAddress);
+                deviceList.add(bTdevice);
             }
         }
         return;
@@ -128,16 +129,18 @@ public class BTAdapter {
         if (device==null) {return;}
 
         try {
-            Log.i("SUKA",device.toString());
+
             deviceName = (String) device.getName();
             deviceAddress = (String) device.getAddress();
-            Log.i("SUKA1",device.toString());
+
             if ((deviceName.startsWith("S3")) || (deviceName.startsWith("S8")) || (deviceName.startsWith("S5"))) {
-                if (!deviceList.contains("MIXXMANN " + deviceName + "\n" + deviceAddress)) {
-                    deviceList.add("MIXXMANN " + deviceName + "\n" + deviceAddress);
+                BTdevice bTdevice=new BTdevice("MIXXMANN "+deviceName,deviceAddress);
+
+                if (!deviceList.contains(bTdevice)) {
+                    deviceList.add(bTdevice);
                 }
             }
-            Log.i("SUKA2",device.toString());
+
         } catch (SecurityException e) {
             e.printStackTrace();
         }
