@@ -75,19 +75,14 @@ public class BTAdapter {
             return true;
         }
     }
-
     public ArrayList<BTdevice> getDeviceList() {
         return deviceList;
     }
-
     public void fillDeviceList() {
         Set<BluetoothDevice> pairedDevices;
-        ArrayList<String> pairedDeviceList = new ArrayList<>();
         String deviceName = "";
         String deviceAddress = "";
-        if (!init()) {
-            return;
-        }
+        if (!init()) return;
         try {
             pairedDevices = adapter.getBondedDevices();
         } catch (SecurityException e) {
@@ -95,7 +90,7 @@ public class BTAdapter {
             return;
         }
         if (pairedDevices.size() > 0) {
-            for (BluetoothDevice device : pairedDevices) {
+            for (BluetoothDevice device : pairedDevices)
                 try {
                     deviceName = (String) device.getName();
                     deviceAddress = (String) device.getAddress();
@@ -103,7 +98,6 @@ public class BTAdapter {
                     i.printStackTrace();
                     return;
                 }
-            }
             if ((deviceName.startsWith("S3")) || (deviceName.startsWith("S8")) || (deviceName.startsWith("S5"))) {
                 BTdevice bTdevice=new BTdevice("MIXXMANN "+deviceName,deviceAddress);
                 deviceList.add(bTdevice);
@@ -111,7 +105,6 @@ public class BTAdapter {
         }
         return;
     }
-
     public void discoverBT() {
         init();
         try {
@@ -121,29 +114,25 @@ public class BTAdapter {
             e.printStackTrace();
         }
     }
-
     public void addDevice(BluetoothDevice device) {
 
         String deviceName = "";
         String deviceAddress = "";
-        if (device==null) {return;}
-
+        if (device==null) return;
         try {
-
             deviceName = (String) device.getName();
             deviceAddress = (String) device.getAddress();
-
             if ((deviceName.startsWith("S3")) || (deviceName.startsWith("S8")) || (deviceName.startsWith("S5"))) {
                 BTdevice bTdevice=new BTdevice("MIXXMANN "+deviceName,deviceAddress);
-
-                if (!deviceList.contains(bTdevice)) {
-                    deviceList.add(bTdevice);
-                }
+                if (!inList(bTdevice.getAddr())) deviceList.add(bTdevice);
             }
-
         } catch (SecurityException e) {
             e.printStackTrace();
         }
+    }
+    public boolean inList(String addr){
+        for (BTdevice dev:deviceList) if (dev.getAddr() == addr) return true;
+        return false;
     }
 }
 
