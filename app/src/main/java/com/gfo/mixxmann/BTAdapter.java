@@ -134,6 +134,12 @@ public class BTAdapter {
         for (BTdevice dev:deviceList) if (dev.getAddr() == addr) return true;
         return false;
     }
+    public boolean pairDevice(int listPosition) {
+        init();
+        BTdevice device= deviceList.get(listPosition);
+
+        return false;
+    }
 }
 
 

@@ -182,7 +182,9 @@ public class MainActivity extends AppCompatActivity {
             bt.discoverBT();
 
     }
-
+    public boolean pairDevice(int lispPosition) {
+        return bt.pairDevice(lispPosition);
+    }
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
